@@ -1082,14 +1082,74 @@
             opacity: 0.9;
         }
 
+        /* Mobile Menu Styles */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #000000;
+            cursor: pointer;
+            padding: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-toggle:hover {
+            background: #000000;
+            color: #ffffff;
+        }
+
+        .mobile-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: #ffffff;
+            border: 1px solid #000000;
+            border-top: none;
+            min-width: 200px;
+            display: none;
+            z-index: 1001;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            color: #000000;
+            text-decoration: none;
+            padding: 15px 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 12px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .mobile-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu a:hover {
+            background: #000000;
+            color: #ffffff;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
             }
 
+            .mobile-menu-toggle {
+                display: block;
+            }
+
             .nav-content {
                 justify-content: space-between;
+                position: relative;
             }
 
             .nav-left {
@@ -1157,6 +1217,14 @@
                 <li><a onclick="showPage('cv')">CV</a></li>
                 <li><a onclick="showPage('portfolio')">HOME</a></li>
             </ul>
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobile-menu">
+                <a onclick="showPage('projects'); closeMobileMenu()">PROJEKTE</a>
+                <a onclick="showPage('cv'); closeMobileMenu()">CV</a>
+                <a onclick="showPage('portfolio'); closeMobileMenu()">HOME</a>
+            </div>
         </div>
     </nav>
 
@@ -1736,6 +1804,27 @@
                 cursor.style.opacity = '1';
             });
         }
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.remove('active');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (!mobileMenu.contains(event.target) && !mobileToggle.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
 
         // Close modals with Escape key
         document.addEventListener('keydown', function(e) {
